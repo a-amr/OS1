@@ -176,3 +176,6 @@ int main() {
 
     return 0;
 }
+//feature to add 
+//changing group name with groupmod -n newgroup oldgroup
+//deleting dir after deliting its user account
