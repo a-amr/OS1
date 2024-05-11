@@ -8,14 +8,14 @@ with pkgs;
 stdenv.mkDerivation {
   name = "env";
   buildInputs = [
-  gcc
+  gcc gtk3 pkg-config
   ];
   src = ./.;
   buildPhase = ''
-  gcc userman.c -o userman
+  gcc userman-gtk.c -o userman-gtk  `pkg-config --cflags --libs gtk+-3.0`
   '';
   installPhase = ''
   mkdir -p $out/bin
-  cp  userman $out/bin/userman
+  cp  userman-gtk $out/bin/userman-gtk
   '';
 }
