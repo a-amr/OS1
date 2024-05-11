@@ -5,7 +5,7 @@
 
 void add_user(const char *username) {
     char command[100];
-    snprintf(command, sizeof(command), "sudo useradd %s", username);
+    snprintf(command, sizeof(command), "sudo useradd -m %s", username);
     system(command);
 }
 
@@ -38,6 +38,11 @@ void change_account_info(const char *username, const char *expiration_date) {
     snprintf(command, sizeof(command), "sudo chage -E %s %s", expiration_date, username);
     system(command);
 }
+void change_aging_info(const char *username) {
+    char command[100];
+    snprintf(command, sizeof(command), "sudo chage   %s", username);
+    system(command);
+}
 
 void assign_user_to_group(const char *username, const char *groupname) {
     char command[100];
@@ -45,23 +50,46 @@ void assign_user_to_group(const char *username, const char *groupname) {
     system(command);
 }
 
+void change_username(const char *newname, const char *username) {
+    char command[100];
+    snprintf(command, sizeof(command),"sudo usermod -l %s %s", newname, username);
+    system(command);
+}
+
+void change_password(const char *username ) {
+    char command[100];
+    snprintf(command, sizeof(command), "sudo passwd %s\n ", username);
+    system(command);
+}
+void change_home(const char *username, const char *newhome) {
+    char command[100];
+    snprintf(command, sizeof(command), "sudo usermod -d %s %s",newhome, username);
+    system(command);
+}
+void change_shell(const char *username) {
+    char command[100];
+    snprintf(command, sizeof(command), "sudo chsh %s",username);
+    system(command);
+}
+
 int main() {
-    system("pwd");
-    system("pwd");
-    system("pwd");
-    system("pwd");
     int choice;
-    char username[50], groupname[50], new_info[100], expiration_date[20];
+    char home[50],newuser[50],username[50], groupname[50], new_info[100], expiration_date[20];
     do {
         printf("\nUser Manager Menu\n");
-        printf("1. Add user\n");
-        printf("2. Delete user\n");
-        printf("3. Add group\n");
-        printf("4. Delete group\n");
-        printf("5. Change user information\n");
-        printf("6. Change account information\n");
-        printf("7. Assign user to group\n");
-        printf("8. Exit\n");
+        printf(" 1.Add user\n");
+        printf(" 2.Delete user\n");
+        printf(" 3.Add group\n");
+        printf(" 4.Delete group\n");
+        printf(" 5.Change user additional information\n");
+        printf(" 6.Change password expiration date for user \n");
+        printf(" 7.Change all aging info for user \n");
+        printf(" 8.Assign user to group\n");
+        printf(" 9.Change user name\n");
+        printf("10.change password for user\n");
+        printf("11.change home dir for a user\n");
+        printf("12.change login shell for user\n");
+        printf("13.Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -103,17 +131,48 @@ int main() {
             case 7:
                 printf("Enter username: ");
                 scanf("%s", username);
+                change_aging_info(username);
+                break;
+            case 8:
+                printf("Enter username: ");
+                scanf("%s", username);
                 printf("Enter group name: ");
                 scanf("%s", groupname);
                 assign_user_to_group(username, groupname);
                 break;
-            case 8:
+            case 9:
+                printf("enter old username: ");
+                scanf("%s", username);
+                printf("enter new username: ");
+                scanf("%s", newuser);
+                change_username(newuser, username);
+                break;
+            case 10:
+                printf("enter username to change his password: ");
+                scanf("%s", username);
+                change_password(username);
+                break;
+            case 11:
+                printf("enter username to change his home dir: ");
+                scanf("%s", username);
+                printf("enter new home location: ");
+                scanf("%s", home);
+                change_home(username, home);
+                break;
+            case 12:
+                printf("enter username to chagne his shell: ");
+                scanf("%s",username);
+                change_shell(username);
+                break;
+            case 13:
                 printf("Exiting...\n");
                 break;
             default:
                 printf("Invalid choice\n");
+                //choice =0;
+                return 1;
         }
-    } while (choice != 8);
+    } while (choice != 13);
 
     return 0;
 }
