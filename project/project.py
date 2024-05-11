@@ -82,9 +82,10 @@ def priority():
     canvas.get_tk_widget().grid(row=3, column=0, columnspan=4, padx=5, pady=5)
 
 root = tk.Tk()
+root.configure(bg='#777777')  # Setting background color of root window
 root.title("Priority Scheduler")
 
-num_processes_label = tk.Label(root, text="Enter the number of processes:")
+num_processes_label = tk.Label(root, text="Enter the number of processes:",bg='#777777')
 num_processes_label.grid(row=0, column=0, padx=5, pady=5)
 
 num_processes_entry = tk.Entry(root)
